@@ -19,7 +19,7 @@ RUN apk add tigervnc --update --no-cache \
     && echo "password" | vncpasswd -f > /opt/app/.config/tigervnc/passwd \
     && chmod 0600 /opt/app/.config/tigervnc/passwd
 
-RUN apk add wine --no-cache \
+RUN apk add wine --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/\
     && apk add wine-mono --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
     && rm -rf /apk /tmp/* /var/cache/apk/*
 
@@ -30,7 +30,7 @@ COPY assets/supervisord.conf /opt/app/etc/supervisord.conf
 COPY Metatrader /opt/app/Metatrader
 
 #winecfg -v=win10
-RUN wineboot -iu \
+RUN wineboot \
     && chown -vR nobody:nobody /opt/app
 
 USER nobody
